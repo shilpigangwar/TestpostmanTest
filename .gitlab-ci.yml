@@ -1,0 +1,20 @@
+variables:
+  POSTMAN_COLLECTION: https://api.getpostman.com/collections/9622021-e045a48f-8a71-4e26-b629-60a39488d34d?apikey=PMAK-5e9f0b66e204f500376fa369-8430966f395d63e01f12da978d7ad3b8de
+
+  POSTMAN_ENVIRONMENT: https://api.getpostman.com/environments/9622021-caab68c6-ed11-4189-861b-8b69ef989ef6?apikey=PMAK-5e9f0b66e204f500376fa369-8430966f395d63e01f12da978d7ad3b8de
+
+
+
+stages:
+- some_stages
+- postman
+
+postman_job:
+  stage: postman
+  before_script:
+  - apt-get update -qq && apt-get install -y -qq curl
+  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  - apt-get install -y nodejs
+  - npm install newman -g
+  script:
+  - newman run ${POSTMAN_COLLECTION} -e ${POSTMAN_ENVIRONMENT}
